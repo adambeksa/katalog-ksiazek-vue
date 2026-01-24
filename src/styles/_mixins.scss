@@ -61,3 +61,12 @@
   text-align: center;
   text-decoration: none;
 }
+
+@mixin container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@mixin section-margin-bottom {
+  margin-bottom: 2rem;
+}

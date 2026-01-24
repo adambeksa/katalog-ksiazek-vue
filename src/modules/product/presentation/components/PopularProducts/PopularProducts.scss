@@ -1,4 +1,6 @@
 .popular-products {
+  @include section-margin-bottom;
+
   &__title {
     text-align: center;
     font-size: 2rem;

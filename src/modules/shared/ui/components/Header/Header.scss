@@ -2,12 +2,11 @@
   background-color: $color-header-bg;
   color: $color-bg-white;
   padding: 1rem 0;
+  @include section-margin-bottom;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   &__container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
+    @include container;
     @include flex-between;
   }
 

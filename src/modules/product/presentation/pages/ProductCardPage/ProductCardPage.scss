@@ -1,5 +1,6 @@
 .product-card-page {
   min-height: 100%;
+  @include section-margin-bottom;
 
   &__back-link {
     background: none;
