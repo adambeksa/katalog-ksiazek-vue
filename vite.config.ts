@@ -12,9 +12,18 @@ export default defineConfig({
     vueJsx(),
     vueDevTools(),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "@/styles/variables" as *; @use "@/styles/mixins" as *;`,
+        api: 'modern-compiler',
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
 })
+
