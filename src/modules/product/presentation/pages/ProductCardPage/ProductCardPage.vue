@@ -7,6 +7,8 @@ import type { IProduct } from '@/modules/product/domain/interfaces/IProduct.inte
 import DownloadModal from '@/modules/product/presentation/components/DownloadModal/DownloadModal.vue';
 import ProductAttribution from '@/modules/product/presentation/components/ProductAttribution/ProductAttribution.vue';
 import Breadcrumbs from '@/modules/shared/ui/components/Breadcrumbs/Breadcrumbs.vue';
+import ProductCardSkeleton from './ProductCardSkeleton.vue';
+import ProductNotFound from '@/modules/product/presentation/components/ProductNotFound/ProductNotFound.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -51,71 +53,58 @@ const goBack = () => {
 </script>
 
 <template>
-  <div v-if="isLoading" class="product-card-page">
-    <div class="container">
-      <p>{{ t('common.loading') }}</p>
-    </div>
-  </div>
+  <ProductCardSkeleton v-if="isLoading" />
 
-  <div v-else-if="notFound" class="product-card-page">
-    <div class="container">
-      <h1>{{ t('productCard.notFound') }}</h1>
-      <RouterLink to="/products" class="product-card-page__back-link">
-        {{ t('productCard.backToList') }}
-      </RouterLink>
-    </div>
-  </div>
+  <ProductNotFound v-if="notFound" />
 
   <div v-else-if="product" class="product-card-page">
-    <div class="container">
-      <Breadcrumbs :current-label="product.name" />
-      
-      <button
-        class="product-card-page__back-link"
-        @click="goBack"
-      >
-        {{ t('common.back') }}
-      </button>
+    <Breadcrumbs :current-label="product.name" />
+    
+    <button
+      class="product-card-page__back-link"
+      @click="goBack"
+    >
+      {{ t('common.back') }}
+    </button>
 
-      <div class="product-card-page__details">
-        <div class="product-card-page__image-section">
-          <img
-            class="product-card-page__main-image"
-            :src="product.image"
-            :alt="product.name"
+    <div class="product-card-page__details">
+      <div class="product-card-page__image-section">
+        <img
+          class="product-card-page__main-image"
+          :src="product.image"
+          :alt="product.name"
+        />
+      </div>
+
+      <div class="product-card-page__info-section">
+        <h2>{{ product.author }}</h2>
+        <h1>{{ product.name }}</h1>
+
+        <div class="product-card-page__description-section">
+          <h3>{{ t('productCard.descriptionTitle') }}</h3>
+          <div
+            class="product-card-page__description-content"
+            v-html="product.description"
           />
         </div>
 
-        <div class="product-card-page__info-section">
-          <h2>{{ product.author }}</h2>
-          <h1>{{ product.name }}</h1>
+        <ProductAttribution :product="product" />
 
-          <div class="product-card-page__description-section">
-            <h3>{{ t('productCard.descriptionTitle') }}</h3>
-            <div
-              class="product-card-page__description-content"
-              v-html="product.description"
-            />
-          </div>
+        <div class="product-card-page__actions">
+          <button
+            class="product-card-page__read-button"
+            @click="handleDownload"
+          >
+            {{ t('productCard.readBook') }}
+          </button>
 
-          <ProductAttribution :product="product" />
-
-          <div class="product-card-page__actions">
-            <button
-              class="product-card-page__read-button"
-              @click="handleDownload"
-            >
-              {{ t('productCard.readBook') }}
-            </button>
-
-            <button
-              v-if="hasAudio"
-              class="product-card-page__audio-button"
-              @click="handleAudioDownload"
-            >
-              {{ t('productCard.listenAudiobook') }}
-            </button>
-          </div>
+          <button
+            v-if="hasAudio"
+            class="product-card-page__audio-button"
+            @click="handleAudioDownload"
+          >
+            {{ t('productCard.listenAudiobook') }}
+          </button>
         </div>
       </div>
     </div>
@@ -137,5 +126,5 @@ const goBack = () => {
 </template>
 
 <style scoped>
-@import '@/modules/product/presentation/pages/ProductCardPage/ProductCardPage.scss';
+  @import './ProductCardPage.scss';
 </style>

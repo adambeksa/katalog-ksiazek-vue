@@ -6,22 +6,22 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('../views/Home/HomeView.vue'),
+      component: () => import('../modules/product/presentation/pages/HomePage/HomePage.vue'),
     },
     {
       path: '/products',
       name: 'products',
-      component: () => import('../views/Products/ProductListingView.vue'),
+      component: () => import('../modules/product/presentation/pages/ProductListingPage/ProductListingPage.vue'),
     },
     {
       path: '/products/:id',
       name: 'product-detail',
-      component: () => import('../views/Products/ProductDetailView.vue'),
+      component: () => import('../modules/product/presentation/pages/ProductCardPage/ProductCardPage.vue'),
     },
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
-      component: () => import('../views/NotFound/NotFoundView.vue'),
+      component: () => import('../modules/shell/presentation/pages/NotFoundPage/NotFoundPage.vue'),
     },
   ],
 });

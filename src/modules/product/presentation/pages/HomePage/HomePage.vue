@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
 import { productFacade } from '@/modules/product/application/ProductFacade';
+import type { Product } from '@/modules/product/domain/Product';
+import { ref, onMounted } from 'vue';
 import MainBanner from '@/modules/banner/presentation/components/MainBanner/MainBanner.vue';
 import PopularProducts from '@/modules/product/presentation/components/PopularProducts/PopularProducts.vue';
-import PopularProductsSkeleton from '@/modules/product/presentation/components/PopularProducts/PopularProductsSkeleton.vue';
-import type { Product } from '@/modules/product/domain/Product';
+import HomePageSkeleton from './HomePageSkeleton.vue';
 
 const popularProducts = ref<Product[]>([]);
 const isLoading = ref(true);
@@ -23,14 +23,10 @@ onMounted(async () => {
 
 <template>
   <div class="home">
-    <div class="container">
+    <HomePageSkeleton v-if="isLoading" />
+    <template v-else>
       <MainBanner />
-      <PopularProductsSkeleton v-if="isLoading" />
-      <PopularProducts v-else :products="popularProducts" />
-    </div>
+      <PopularProducts :products="popularProducts" />
+    </template>
   </div>
 </template>
-
-<style scoped>
-@import '@/modules/product/presentation/pages/HomePage/HomePage.scss';
-</style>

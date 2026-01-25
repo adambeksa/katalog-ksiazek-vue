@@ -1,0 +1,22 @@
+.product-not-found {
+  text-align: center;
+  padding: 4rem 2rem;
+
+  h1 {
+    color: var(--color-text-main, #333);
+    margin-bottom: 2rem;
+    font-size: 2rem;
+  }
+
+  &__back-link {
+    background: none;
+    border: none;
+    
+    @include link-transition($color-primary, $color-primary-dark);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    margin-bottom: 2rem;
+    display: inline-block;
+  }
+}

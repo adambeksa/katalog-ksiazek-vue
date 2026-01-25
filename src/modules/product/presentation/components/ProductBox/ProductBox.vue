@@ -7,7 +7,7 @@ interface Props {
   product: IProduct;
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 const { t } = useI18n();
 </script>
 

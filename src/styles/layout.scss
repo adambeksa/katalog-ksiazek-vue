@@ -1,8 +1,10 @@
 .layout {
   min-height: 100vh;
-  @include flex-column;
+  display: flex;
+  flex-direction: column;
 
   &__container {
+    flex: 1;
     @include container;
   }
 }

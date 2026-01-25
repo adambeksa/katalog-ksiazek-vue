@@ -16,6 +16,7 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData: `@use "@/styles/variables" as *; @use "@/styles/mixins" as *;`,
+        // @ts-expect-error - 'api' is a valid option for sass-embedded but missing in vite types
         api: 'modern-compiler',
       },
     },

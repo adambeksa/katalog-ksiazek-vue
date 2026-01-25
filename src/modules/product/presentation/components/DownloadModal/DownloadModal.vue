@@ -26,7 +26,7 @@ const formatsToDisplay = computed(() =>
 const availableFormats = computed(() => {
   if (!formatsToDisplay.value) return [];
   
-  return Object.entries(formatsToDisplay.value).filter(([_, val]) => {
+  return Object.entries(formatsToDisplay.value).filter(([, val]) => {
     if (Array.isArray(val)) return val.length > 0;
     return !!val;
   });

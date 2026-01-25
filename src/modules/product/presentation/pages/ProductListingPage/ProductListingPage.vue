@@ -8,7 +8,7 @@ import type { IProductFilters } from '@/modules/product/domain/interfaces/IProdu
 import type { IFilterOptions } from '@/modules/product/domain/interfaces/IFilterOptions.interface';
 import ProductBox from '@/modules/product/presentation/components/ProductBox/ProductBox.vue';
 import ProductFilters from '@/modules/product/presentation/components/ProductFilters/ProductFilters.vue';
-import ProductFiltersSkeleton from '@/modules/product/presentation/components/ProductFilters/ProductFiltersSkeleton.vue';
+import ProductListingSkeleton from './ProductListingSkeleton.vue';
 import Breadcrumbs from '@/modules/shared/ui/components/Breadcrumbs/Breadcrumbs.vue';
 
 const { t } = useI18n();
@@ -74,13 +74,12 @@ const nextPage = () => {
 </script>
 
 <template>
-  <div class="product-listing">
-    <div class="container">
+  <ProductListingSkeleton v-if="isLoading" />
+
+  <div v-else class="product-listing">
       <Breadcrumbs />
       
-      <ProductFiltersSkeleton v-if="isLoading" />
       <ProductFilters
-        v-else
         :filters="filters"
         :filter-options="filterOptions"
         @filter-change="handleFilterChange"
@@ -118,9 +117,8 @@ const nextPage = () => {
         </button>
       </div>
     </div>
-  </div>
 </template>
 
 <style scoped>
-@import '@/modules/product/presentation/pages/ProductListingPage/ProductListingPage.scss';
+  @import './ProductListingPage.scss';
 </style>
