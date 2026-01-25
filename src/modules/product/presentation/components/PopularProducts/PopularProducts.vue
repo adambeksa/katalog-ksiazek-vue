@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import ProductBox from '../ProductBox/ProductBox.vue';
-import type { Product } from '@/modules/product/domain/Product';
+import type { IProduct } from '@/modules/product/domain/interfaces/IProduct.interface';
 
 interface Props {
-  products: Product[];
+  products: IProduct[];
 }
 
 defineProps<Props>();

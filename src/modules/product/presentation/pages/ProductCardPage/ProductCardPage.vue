@@ -2,8 +2,8 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { productFacade } from '@/modules/product/application/ProductFacade';
-import type { IProduct } from '@/modules/product/domain/interfaces/IProduct.interface';
+import { storeToRefs } from 'pinia';
+import { useProductStore } from '@/modules/product/application/stores/useProductStore';
 import DownloadModal from '@/modules/product/presentation/components/DownloadModal/DownloadModal.vue';
 import ProductAttribution from '@/modules/product/presentation/components/ProductAttribution/ProductAttribution.vue';
 import Breadcrumbs from '@/modules/shared/ui/components/Breadcrumbs/Breadcrumbs.vue';
@@ -13,10 +13,10 @@ import ProductNotFound from '@/modules/product/presentation/components/ProductNo
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
+const store = useProductStore();
+const { currentProduct: product, isLoading } = storeToRefs(store);
 
-const product = ref<IProduct | null>(null);
-const isLoading = ref(true);
-const notFound = ref(false);
+const notFound = computed(() => !isLoading.value && !product.value);
 const showDownloadModal = ref(false);
 const showAudioModal = ref(false);
 
@@ -24,19 +24,9 @@ const hasAudio = computed(() =>
   product.value?.audioFormats && Object.keys(product.value.audioFormats).length > 0
 );
 
-onMounted(async () => {
-  try {
-    const id = route.params.id as string;
-    product.value = await productFacade.getProductById(id);
-    if (!product.value) {
-      notFound.value = true;
-    }
-  } catch (error) {
-    console.error('Error loading product:', error);
-    notFound.value = true;
-  } finally {
-    isLoading.value = false;
-  }
+onMounted(() => {
+  const id = route.params.id as string;
+  store.loadProductById(id);
 });
 
 const handleDownload = () => {

@@ -26,9 +26,7 @@ export class ProductApiService {
 
   async getById(id: string): Promise<Product | null> {
     try {
-      console.log(`Fetching product with ID: ${id}`);
       const res = await this.client.get<IProductDto>(`/books/${id}`);
-      console.log(`Product fetched successfully:`, res.data);
       return mapDetailToProduct(res.data);
     } catch (error) {
       console.error(`Error fetching product ${id}:`, error);

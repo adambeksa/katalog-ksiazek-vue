@@ -1,74 +1,45 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { productFacade } from '@/modules/product/application/ProductFacade';
-import { productFilterFacade } from '@/modules/product/application/ProductFilterFacade';
-import type { IProduct } from '@/modules/product/domain/interfaces/IProduct.interface';
+import { storeToRefs } from 'pinia';
+import { useProductStore } from '@/modules/product/application/stores/useProductStore';
+import { useProductFilterStore } from '@/modules/product/application/stores/useProductFilterStore';
 import type { IProductFilters } from '@/modules/product/domain/interfaces/IProductFilters.interface';
-import type { IFilterOptions } from '@/modules/product/domain/interfaces/IFilterOptions.interface';
 import ProductBox from '@/modules/product/presentation/components/ProductBox/ProductBox.vue';
 import ProductFilters from '@/modules/product/presentation/components/ProductFilters/ProductFilters.vue';
 import ProductListingSkeleton from './ProductListingSkeleton.vue';
 import Breadcrumbs from '@/modules/shared/ui/components/Breadcrumbs/Breadcrumbs.vue';
 
 const { t } = useI18n();
+const productStore = useProductStore();
+const filterStore = useProductFilterStore();
 
-const initialProducts = ref<IProduct[]>([]);
-const isLoading = ref(true);
-const page = ref(1);
+const { isLoading } = storeToRefs(productStore);
+const { 
+  filteredProducts: products, 
+  filters, 
+  filterOptions, 
+  page, 
+  totalPages 
+} = storeToRefs(filterStore);
 
-const filters = ref<IProductFilters>({
-  author: t('common.all'),
-  epoch: t('common.all'),
-  genre: t('common.all'),
-  kind: t('common.all'),
-});
-
-const filterOptions = computed<IFilterOptions>(() => {
-  return productFilterFacade.deriveFilterOptions(initialProducts.value);
-});
-
-const filteredResult = computed(() => {
-  return productFilterFacade.filterProducts(initialProducts.value, {
-    filters: filters.value,
-    page: page.value,
-  });
-});
-
-const products = computed(() => filteredResult.value.items);
-const total = computed(() => filteredResult.value.total);
-const totalPages = computed(() => Math.ceil(total.value / 20));
-
-watch(filters, () => {
-  page.value = 1;
-}, { deep: true });
-
-onMounted(async () => {
-  try {
-    initialProducts.value = await productFacade.getAllProducts();
-  } catch (error) {
-    console.error('Error loading products:', error);
-  } finally {
-    isLoading.value = false;
-  }
+onMounted(() => {
+  productStore.loadAllProducts();
 });
 
 const handleFilterChange = (key: keyof IProductFilters, value: string) => {
-  filters.value = {
-    ...filters.value,
-    [key]: value,
-  };
+  filterStore.setFilter(key, value);
 };
 
 const previousPage = () => {
   if (page.value > 1) {
-    page.value--;
+    filterStore.setPage(page.value - 1);
   }
 };
 
 const nextPage = () => {
   if (page.value < totalPages.value) {
-    page.value++;
+    filterStore.setPage(page.value + 1);
   }
 };
 </script>
