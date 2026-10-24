@@ -20,10 +20,18 @@ const { t } = useI18n();
     />
     <div class="product-box__info">
       <h3 class="product-box__title">{{ product.name }}</h3>
-      <div
-        class="product-box__description"
-        v-html="product.description"
-      />
+      <div class="product-box__meta">
+        <span class="product-box__author">{{ product.author }}</span>
+        <span class="product-box__epoch">{{ product.epoch }}</span>
+        <span class="product-box__kind">{{ product.kind }}</span>
+        <span
+          v-if="product.features.includes('audiobook')"
+          class="product-box__audio"
+          title="Audiobook"
+        >
+          Audiobook
+        </span>
+      </div>
       <RouterLink
         :to="ROUTES.PRODUCT_DETAILS.path(product.id)"
         class="product-box__link"

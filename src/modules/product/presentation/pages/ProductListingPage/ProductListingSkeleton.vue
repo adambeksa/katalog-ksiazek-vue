@@ -2,6 +2,7 @@
 import Breadcrumbs from '@/modules/shared/ui/components/Breadcrumbs/Breadcrumbs.vue';
 import ProductBoxSkeleton from '@/modules/product/presentation/components/ProductBox/ProductBoxSkeleton.vue';
 import ProductFiltersSkeleton from '@/modules/product/presentation/components/ProductFilters/ProductFiltersSkeleton.vue';
+import ProductListingHead from './ProductListingHead.vue';
 </script>
 
 <template>
@@ -10,6 +11,7 @@ import ProductFiltersSkeleton from '@/modules/product/presentation/components/Pr
 
     <ProductFiltersSkeleton />
 
+    <ProductListingHead />
     <div class="product-listing__grid">
       <ProductBoxSkeleton v-for="i in 9" :key="i" />
     </div>

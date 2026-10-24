@@ -1,22 +1,30 @@
 .header {
-  background-color: $color-header-bg;
-  color: $color-bg-white;
-  padding: 1rem 0;
+  background: $paper;
+  border-bottom: $rule-heavy;
   @include section-margin-bottom;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   &__container {
     @include container;
-    @include flex-between;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: $space-3 $space-8;
+    padding-top: $space-6;
+    padding-bottom: $space-3;
   }
 
   &__logo {
+    color: $ink;
     text-decoration: none;
-    color: $color-bg-white;
+
+    &:hover .header__title {
+      color: $signal;
+    }
   }
 
   &__title {
-    margin: 0;
-    font-size: 1.5rem;
+    @include heading;
+    transition: color $transition;
   }
 }

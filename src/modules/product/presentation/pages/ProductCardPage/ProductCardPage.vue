@@ -70,6 +70,21 @@ const goBack = () => {
         <h2>{{ product.author }}</h2>
         <h1>{{ product.name }}</h1>
 
+        <dl class="product-card-page__facts">
+          <div>
+            <dt>{{ t('products.filters.epoch') }}</dt>
+            <dd>{{ product.epoch }}</dd>
+          </div>
+          <div>
+            <dt>{{ t('products.filters.kind') }}</dt>
+            <dd>{{ product.kind }}</dd>
+          </div>
+          <div>
+            <dt>{{ t('products.filters.genre') }}</dt>
+            <dd>{{ product.genre }}</dd>
+          </div>
+        </dl>
+
         <div class="product-card-page__description-section">
           <h3>{{ t('productCard.descriptionTitle') }}</h3>
           <div
