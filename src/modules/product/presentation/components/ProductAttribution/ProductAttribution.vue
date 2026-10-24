@@ -33,8 +33,18 @@ const { t } = useI18n();
         </a>
       </div>
 
-      <div v-if="product.license" class="product-attribution__item">
-        <strong>{{ t('attribution.license') }}</strong> {{ product.license }}
+      <div class="product-attribution__item">
+        <strong>{{ t('attribution.license') }}</strong>
+        <template v-if="product.license && !product.licenseUrl">{{ product.license }}</template>
+        <a
+          v-else
+          :href="product.licenseUrl || product.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="product-attribution__link"
+        >
+          {{ product.license || t('attribution.licenseFallback') }}
+        </a>
       </div>
 
       <div v-if="product.audioArtist" class="product-attribution__item">
